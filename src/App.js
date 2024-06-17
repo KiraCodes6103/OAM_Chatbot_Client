@@ -1,14 +1,13 @@
 import "./App.css";
-import ChatBody from "./components/ChatBody/ChatBody";
-import Navbar from "./components/Navbar/Navbar";
-
+import UploadForm from "./components/Admin/UploadForm.jsx";
+import Routing from "./routes/Routes.jsx";
 
 function App() {
-  return(
-    <div className = "App">
-      <Navbar/>
-      <ChatBody/>
+  return (
+    <div className="App ">
+      <Routing />
+      {/* <UploadForm/> */}
     </div>
-  )
+  );
 }
 export default App;

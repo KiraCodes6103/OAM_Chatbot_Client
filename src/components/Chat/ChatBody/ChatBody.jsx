@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import ChatList from "../ChatList/ChatList";
 import ChatContent from "../ChatContent/ChatContent";
 import axios from "axios";
@@ -8,6 +8,25 @@ function ChatBody() {
   const [conversations, setConversations] = useState([]);
   const [selectedConversation, setSelectedConversation] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [chatListWidth, setChatListWidth] = useState(250);
+  const dividerRef = useRef(null);
+
+  const handleMouseDown = (e) => {
+    e.preventDefault();
+    document.addEventListener("mousemove", handleMouseMove);
+    document.addEventListener("mouseup", handleMouseUp);
+  };
+
+  const handleMouseMove = (e) => {
+    e.preventDefault();
+    setChatListWidth(e.clientX);
+  };
+
+  const handleMouseUp = (e) => {
+    e.preventDefault();
+    document.removeEventListener("mousemove", handleMouseMove);
+    document.removeEventListener("mouseup", handleMouseUp);
+  };
 
   useEffect(() => {
     // Fetch all conversations on mount
@@ -69,28 +88,36 @@ function ChatBody() {
           conv._id === response2.data._id ? response2.data : conv
         )
       );
-      
     } catch (error) {
       console.error("Error sending message:", error);
-    } finally{
+    } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="main__chatbody">
-      <ChatList
-        buttonOnClick={handleNewChat}
-        conversations={conversations}
-        onSelectConversation={handleSelectConversation}
-        selectedConversation={selectedConversation}
+    <div className="flex flex-grow bg-white h-full w-full overflow-y-hidden">
+      <div className="h-full overflow-auto overflow-x-hidden scrollbar-hide" style={{ width: chatListWidth }}>
+        <ChatList
+          buttonOnClick={handleNewChat}
+          conversations={conversations}
+          onSelectConversation={handleSelectConversation}
+          selectedConversation={selectedConversation}
+        />
+      </div>
+      <div
+        ref={dividerRef}
+        className="w-1 cursor-col-resize bg-transparent"
+        onMouseDown={handleMouseDown}
       />
-      <ChatContent
-        conversation={selectedConversation}
-        onSendMessage={handleSendMessage}
-        newChat={handleNewChat}
-        loading={loading}
-      />
+      <div className="flex-1 h-full overflow-auto scrollbar-hide">
+        <ChatContent
+          conversation={selectedConversation}
+          onSendMessage={handleSendMessage}
+          newChat={handleNewChat}
+          loading={loading}
+        />
+      </div>
     </div>
   );
 }

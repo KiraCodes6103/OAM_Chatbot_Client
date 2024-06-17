@@ -3,6 +3,8 @@
   padding: 20px 40px;
   margin: 10px;
   background-color: #efeff7;
+  height: 100%;
+  width: 100%;
   /* border-right: 1px solid #ebe7fb; */
 }
 .content__header {
@@ -66,7 +68,7 @@
   padding: 1px;
 }
 .chat__item__content {
-  background-color: #4462ff;
+  background-color: #3979ef;
   color: #fff;
   padding: 15px;
   border-radius: 10px 10px 0 10px;
