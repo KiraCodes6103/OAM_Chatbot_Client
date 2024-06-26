@@ -10,10 +10,9 @@ import SignIn from "../components/Auth/Signin";
 import AdminSignIn from "../components/Auth/AdminSignin";
 import OnlyAdminRoute from "./OnlyAdminRoutes";
 import UploadForm from "../components/Admin/UploadForm";
+import ParentUpload from "../components/Admin/ParentUpload";
 
 function Routing() {
-  // console.log("HI");
-  const user = "null";
   return (
     <AuthProvider>
       <Router>
@@ -22,7 +21,7 @@ function Routing() {
           <Route
             path="/home"
             element={
-              <ProtectedRoute user={user}>
+              <ProtectedRoute>
                 <Home />
               </ProtectedRoute>
             }
@@ -33,8 +32,8 @@ function Routing() {
           <Route
             path="/upload"
             element={
-              <OnlyAdminRoute user={user}>
-                <UploadForm />
+              <OnlyAdminRoute>
+                <ParentUpload />
               </OnlyAdminRoute>
             }
           />

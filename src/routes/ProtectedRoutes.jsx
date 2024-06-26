@@ -1,8 +1,11 @@
 import { Navigate } from "react-router-dom";
 
-function ProtectedRoute({ user, children }) {
-  if (!user) {
-    return <Navigate to="/" replace />;
+function ProtectedRoute({ children }) {
+  const token = localStorage.getItem("token");
+  const role = token ? JSON.parse(atob(token.split(".")[1])).role : null;
+  console.log(role);
+  if (role !== "user") {
+    return <Navigate to="/signin" replace />;
   }
 
   return children;

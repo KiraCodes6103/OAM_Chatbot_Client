@@ -15,7 +15,7 @@ function Navbar() {
   };
 
   return (
-    <div className="navbar flex justify-between items-center p-4 bg-gradient-to-r from-blue-600 to-blue-500 text-white font-bold">
+    <div className="navbar flex justify-between items-center p-4 bg-gradient-to-r from-[#1e3a8a] to-[#1d4ed8] text-white font-bold rounded-md">
       <div>SAMSUNG CHATBOT</div>
       <div className="flex items-center gap-4">
         <AccountCircleIcon

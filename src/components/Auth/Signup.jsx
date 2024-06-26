@@ -1,24 +1,48 @@
 // src/components/SignUp.js
-import React, { useState } from 'react';
-import { TextField, Button, Alert, InputAdornment, IconButton } from '@mui/material';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
+import React, { useState } from "react";
+import {
+  TextField,
+  Button,
+  Alert,
+  InputAdornment,
+  IconButton,
+} from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { useNavigate, Link } from "react-router-dom";
+import axios from "axios";
 
 const SignUp = () => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
-
-  const handleSubmit = (e) => {
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const navigate = useNavigate();
+  const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (name === '' || email === '' || password === '') {
-      setError('All fields are required.');
+    if (name === "" || email === "" || password === "") {
+      setError("All fields are required.");
       return;
     }
-    setError('');
-    setSuccess('Sign up successful!');
+    try {
+      const res = await axios.post(`${BACKEND_URL}/users/signup`, {
+        name,
+        email,
+        password,
+        role: "user",
+      });
+      if (res) {
+        setSuccess("Account Creation is Successful !");
+        setError("");
+      }else{
+        setError("Something Went wrong !")
+      }
+    } catch (error) {
+      console.log(error);
+      setError("Something Went wrong !");
+    }
   };
 
   const handleClickShowPassword = () => {
@@ -30,12 +54,22 @@ const SignUp = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-200 px-6">
       <div className="bg-white p-8 rounded shadow-md w-full max-w-md">
-        <h1 className="text-2xl font-bold mb-6 text-primary">Sign Up</h1>
-        {error && <Alert severity="error" className="mb-4">{error}</Alert>}
-        {success && <Alert severity="success" className="mb-4">{success}</Alert>}
-        <form onSubmit={handleSubmit} className="space-y-4" autoComplete="off">
+        <h1 className="text-3xl font-bold mb-6 text-[#2930ff] text-center">
+          Sign Up
+        </h1>
+        {error && (
+          <Alert severity="error" className="mb-4">
+            {error}
+          </Alert>
+        )}
+        {success && (
+          <Alert severity="success" className="mb-4">
+            {success}
+          </Alert>
+        )}
+        <form onSubmit={handleSubmit} className="space-y-6" autoComplete="off">
           <TextField
             label="Name"
             variant="outlined"
@@ -57,7 +91,7 @@ const SignUp = () => {
           />
           <TextField
             label="Password"
-            type={showPassword ? 'text' : 'password'}
+            type={showPassword ? "text" : "password"}
             variant="outlined"
             fullWidth
             required
@@ -81,6 +115,12 @@ const SignUp = () => {
             Sign Up
           </Button>
         </form>
+        <div className="mt-4 text-center">
+          <span className="text-gray-600">Already have an account? </span>
+          <Link to="/signin" className="text-[#2930ff] font-semibold">
+            Sign In
+          </Link>
+        </div>
       </div>
     </div>
   );

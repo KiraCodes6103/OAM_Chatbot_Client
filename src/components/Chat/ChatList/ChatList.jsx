@@ -1,25 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
 import ChatListItems from "./ChatListItems";
 import AddIcon from "@mui/icons-material/Add";
+import NewChatDialog from "../DialogBox/DialogBox";
 
 function ChatList({
   buttonOnClick,
   conversations,
   onSelectConversation,
   selectedConversation,
+  files,
+  onDeleteConversation,
 }) {
-  console.log(conversations);
+  const [dialogOpen, setDialogOpen] = useState(false);
   return (
     <div className="main__chatlist h-full overflow-hidden bg-white shadow-lg p-4 rounded-md">
       <button
-        className="btn flex items-center justify-center bg-gradient-to-r from-blue-600 to-blue-500 font-bold text-white py-2 px-4 rounded-md hover:bg-purple-600 transition-colors w-full mb-4"
-        onClick={buttonOnClick}
+        className="flex items-center justify-center bg-gradient-to-r from-[#1e3a8a] to-[#1d4ed8] font-bold text-white py-2 px-4 rounded-md hover:bg-[#1e40af] transition-colors w-full mb-4"
+        onClick={() => setDialogOpen(true)}
       >
         <AddIcon />
         <span className="ml-2">New Chat</span>
       </button>
-
-      <div className="chatlist__items overflow-auto">
+      <NewChatDialog
+        open={dialogOpen}
+        handleClose={() => setDialogOpen(false)}
+        handleNewChat={buttonOnClick}
+        files={files}
+      />
+      <div className="chatlist__items overflow-auto h-screen custom-scrollbar">
         {[...conversations].reverse().map((conversation, index) => (
           <ChatListItems
             key={conversation._id}
@@ -32,6 +40,7 @@ function ChatList({
                 ? "active"
                 : ""
             }
+            onDeleteConversation = {onDeleteConversation}
           />
         ))}
       </div>

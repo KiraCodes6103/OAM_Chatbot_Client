@@ -92,9 +92,10 @@
   -webkit-user-select: none;
   user-select: none;
 }
+
 .chat__msg {
-  -webkit-user-select: none;
-  user-select: none;
+  -webkit-user-select: text;
+  user-select: text;
   text-align: left;
   word-wrap: break-word; /* Break long words */
   overflow: hidden; /* Hide overflow content */

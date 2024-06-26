@@ -1,11 +1,10 @@
 import { Navigate } from "react-router-dom";
 
-function OnlyAdminRoute({ user, children }) {
-  if (!user) {
-    return <Navigate to="/" replace />;
-  }
-  if (!(user === "admin")){
-    return <Navigate to="/" replace />;
+function OnlyAdminRoute({ children }) {
+  const token = localStorage.getItem("token");
+  const role = token ? JSON.parse(atob(token.split(".")[1])).role : null;
+  if (role !== "admin") {
+    return <Navigate to="/adminsignin" replace />;
   }
 
   return children;
