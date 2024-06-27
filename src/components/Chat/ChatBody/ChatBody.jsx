@@ -141,9 +141,15 @@ function ChatBody({ token, files }) {
           conv._id === response.data._id ? response.data : conv
         )
       );
+      const chatHistory = selectedConversation.messages.map((message) => {
+        let saidBy = "Bot";
+        if (message.bool) saidBy = "User";
+        return `${saidBy}: ${message.msg}`;
+      }).join('\n');
       const ai_response = await axios.post(`${ML_URL}/query_pdf/`, {
         file_name: selectedConversation.from_pdf,
         question: message.msg,
+        conversation_history: chatHistory,
       });
       console.log(ai_response);
       const response2 = await axios.post(

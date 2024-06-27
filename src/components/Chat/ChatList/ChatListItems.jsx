@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import axios from "axios";
 
 function ChatListItems({
   onSelectConversation,
@@ -12,19 +11,6 @@ function ChatListItems({
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef(null);
   const timeoutRef = useRef(null);
-  const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-  // const onDeleteConversation = async (conversationId) => {
-  //   try {
-  //     const res = await axios.post(`${BACKEND_URL}/conversations/delete`, {
-  //       conversationId: conversationId,
-  //     });
-  //     if (!res) {
-  //       console.log(res.data);
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
 
   const trimString = (str) => {
     if (str.length > 20) {
